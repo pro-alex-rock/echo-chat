@@ -1,4 +1,4 @@
-package client1;
+package symbolOneThread.client1;
 
 import java.io.*;
 import java.net.Socket;
