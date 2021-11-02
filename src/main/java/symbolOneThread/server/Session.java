@@ -1,4 +1,4 @@
-package server;
+package symbolOneThread.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -39,10 +39,10 @@ public class Session/* extends Thread*/ {
         try {
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            while (true) {
+            //while (true) {
                 clientMsg = dataInputStream.readUTF();
                 dataOutputStream.write(("echo: " + clientMsg).getBytes(StandardCharsets.UTF_8));
-            }
+            //}
         } catch (IOException e) {
             try {
                 throw new IOException("Failed to interact with client: " + e);
