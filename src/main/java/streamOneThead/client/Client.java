@@ -1,38 +1,41 @@
-package symbolOneThread.client1;
+package streamOneThead.client;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-/**
- * @author Oleksandr Haleta
- * 2021
- */
 public class Client {
-
-    public static void main(String[] args) throws IOException {
-        int port = 3000;
-        String host = "127.0.0.1";
-        start(port, host);
+    {
+        String expected = "Test string";
+        InputStream inputStream = new ByteArrayInputStream(expected.getBytes());
+        System.setIn(inputStream);
     }
 
-    public static void start(int port, String host) throws IOException {
+    public static void main(String[] args) throws IOException {
+
         Client client = new Client();
+        client.start();
+    }
+
+    public void start() throws IOException {
+        int port = 3000;
+        String host = "127.0.0.1";
+        //Client client = new Client();
         Socket socket = new Socket(host, port);
 
         InputStream inputStream = socket.getInputStream();
         OutputStream outputStream = socket.getOutputStream();
 
-        String inputMsg = client.getInputMsg();
-        client.sendMessage(outputStream, inputMsg);
-        String answer = client.getServerMsg(inputStream);
+        String inputMsg = getInputMsg();
+        sendMessage(outputStream, inputMsg);
+        String answer = getServerMsg(inputStream);
         System.out.println(answer);
         inputStream.close();
         outputStream.close();
 
     }
 
-    private void sendMessage(OutputStream outputStream, String inputMsg) throws IOException {
+    public void sendMessage(OutputStream outputStream, String inputMsg) throws IOException {
         outputStream.write(inputMsg.getBytes(StandardCharsets.UTF_8));
     }
 

@@ -1,9 +1,13 @@
-package streamOneThead.client1;
+package symbolOneThread.client;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * @author Oleksandr Haleta
+ * 2021
+ */
 public class Client {
 
     public static void main(String[] args) throws IOException {

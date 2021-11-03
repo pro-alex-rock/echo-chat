@@ -8,10 +8,11 @@ import java.nio.charset.StandardCharsets;
 public class Server {
 
     public static void main(String[] args) throws IOException {
-        start();
+        Server server = new Server();
+        server.start();
     }
 
-    public static void start() throws IOException {
+    public void start() throws IOException {
         int port = 3000;
         ServerSocket serverSocket = new ServerSocket(port);
         Socket socket = serverSocket.accept();
