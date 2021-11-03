@@ -36,6 +36,9 @@ public class Client {
     }
 
     public void sendMessage(OutputStream outputStream, String inputMsg) throws IOException {
+        if (inputMsg == null) {
+            throw new NullPointerException("You must enter a valid value to send the message.");
+        }
         outputStream.write(inputMsg.getBytes(StandardCharsets.UTF_8));
     }
 
