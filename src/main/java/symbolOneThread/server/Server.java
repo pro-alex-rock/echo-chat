@@ -16,29 +16,23 @@ public class Server {
     }
 
     public static void start() throws IOException {
-        int port = 3000;
-        ServerSocket serverSocket = new ServerSocket(port);
-        Socket socket = serverSocket.accept();
-        OutputStream outputStream = socket.getOutputStream();
-        InputStream inputStream = socket.getInputStream();
 
-
-        String msg = getClientMessage(inputStream, socket);
-        sendEcho(outputStream,socket, msg);
-        outputStream.flush();
-        outputStream.close();
-        inputStream.close();
+        try (ServerSocket serverSocket = new ServerSocket(3000)) {
+            try (Socket socket = serverSocket.accept();
+                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))) {
+                String msg = bufferedReader.readLine() ;
+                sendEcho(bufferedWriter, msg);
+            }
+        }
     }
 
-    private static void sendEcho(OutputStream outputStream, Socket socket, String msg) throws IOException {
-        outputStream.write(("echo: " + msg).getBytes(StandardCharsets.UTF_8));
-    }
-
-    private static String getClientMessage(InputStream inputStream, Socket socket) throws IOException {
-
-        byte[] array = new byte[50];
-        int count = inputStream.read(array);
-
-        return new String(array, 0, count);
+    private static void sendEcho(BufferedWriter bufferedWriter, String msg) throws IOException {
+        try {
+            bufferedWriter.write(("echo: " + msg));
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            throw new IOException("Unable to write echo message. " + e);
+        }
     }
 }
